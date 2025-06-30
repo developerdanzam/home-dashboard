@@ -12,7 +12,11 @@ java {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
-
+bootJar {
+	archiveBaseName = 'smartdash'
+	archiveVersion.set('')
+    archiveClassifier.set('')
+}
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
