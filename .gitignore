@@ -39,3 +39,4 @@ out/
 ### Misc ###
 run.sh
 *.log
+*.p12
