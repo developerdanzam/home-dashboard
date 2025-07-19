@@ -40,3 +40,4 @@ out/
 run.sh
 *.log
 *.p12
+config/application-dev.yml

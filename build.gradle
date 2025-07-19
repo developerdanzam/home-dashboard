@@ -5,7 +5,8 @@ plugins {
 }
 
 group = 'com.smartdash'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
+buildVersion = "${version}-SNAPSHOT"
 
 java {
 	toolchain {
@@ -13,7 +14,9 @@ java {
 	}
 }
 bootJar {
-	archiveBaseName = 'smartdash'
+	archiveBaseName = "smartdash-${version}"
+	archiveVersion = ''
+	archiveClassifier = ''
 	archiveVersion.set('')
     archiveClassifier.set('')
 }
@@ -30,6 +33,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.slf4j:slf4j-api:2.0.17'
 	implementation 'org.jsoup:jsoup:1.21.1'
 	implementation 'ch.qos.logback:logback-classic:1.5.18'
@@ -43,3 +47,13 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+task copyJar(type: Copy) {
+    from("$buildDir/libs/") {
+        include 'smartdash.jar'
+    }
+    into '../ansible-homedash-deploy/files/'  // adjust path relative to your Gradle project root
+    rename { String fileName ->
+        'smartdash.jar'  // rename the copied jar as needed
+    }
+}
+build.finalizedBy(copyJar)
