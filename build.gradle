@@ -5,8 +5,7 @@ plugins {
 }
 
 group = 'com.smartdash'
-version = '1.0.0'
-ext.buildVersion = "${version}-SNAPSHOT"
+version = '1.0.0-SNAPSHOT'
 
 java {
 	toolchain {
@@ -14,7 +13,7 @@ java {
 	}
 }
 bootJar {
-	archiveBaseName = "smartdash-${buildVersion}"
+	archiveBaseName = "smartdash-${version}"
 	archiveVersion = ''
 	archiveClassifier = ''
 	archiveVersion.set('')
@@ -51,10 +50,11 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 task copyJar(type: Copy) {
+	dependsOn build
     from("$buildDir/libs/") {
-        include 'smartdash*.jar'
+        include 'smartdash-1.0.0-SNAPSHOT.jar'
     }
-    into '../ansible-homedash-deploy/files/'  // adjust path relative to your Gradle project root
+    into project.findProperty('ANSIBLE_PATH')
     rename { String fileName ->
         'smartdash.jar'  // rename the copied jar as needed
     }
